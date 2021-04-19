@@ -14,44 +14,66 @@ const client = createClient({
 });
 
 const measurementQuery = `
-query($input: MeasurementQuery!) {
-  getMeasurements(input: $input) {
-     metric,
-    at,
-    value,
-    unit
+  query($input: [MeasurementQuery]) {
+    getMultipleMeasurements(input: $input) {
+      metric,
+        measurements {
+            metric,
+            at,
+            value,
+            unit
+        }
+    }                                                                                       
   }
-}
-`;
-
-const getMeasurement = (state: IState) => {
-  const dataMeasurements = state.measurement;
-  return {
-    dataMeasurements,
-  };
-};
+  `;
 
 export default () => {
   return (
     <Provider value={client}>
-      <DataMeasurement />
+      <MultipleMetrics />
     </Provider>
   );
 };
 
-const DataMeasurement = () => {
+const MultipleMetrics = () => {
   const { current, past } = useSelector((state: IState) => state.heartbeat);
-  const MeasurementQuery = {
-    metricName: 'tubingPressure',
-    after: past,
-    before: current,
-  };
+  const metricSet = [
+    {
+      metricName: 'tubingPressure',
+      after: past,
+      before: current,
+    },
+    {
+      metricName: 'injValveOpen',
+      before: current,
+      after: past,
+    },
+    {
+      metricName: 'oilTemp',
+      before: current,
+      after: past,
+    },
+    {
+      metricName: 'casingPressure',
+      before: current,
+      after: past,
+    },
+    {
+      metricName: 'flareTemp',
+      before: current,
+      after: past,
+    },
+    {
+      metricName: 'waterTemp',
+      before: current,
+      after: past,
+    },
+  ];
   const dispatch = useDispatch();
-  const measurementData = useSelector(getMeasurement);
 
   const [result] = useQuery({
     query: measurementQuery,
-    variables: { input: MeasurementQuery },
+    variables: { input: metricSet },
   });
   const { fetching, data, error } = result;
   useEffect(() => {
@@ -60,8 +82,9 @@ const DataMeasurement = () => {
       return;
     }
     if (!data) return;
-    const { getMeasurements } = data;
-    dispatch(actions.mesurementDataRecevied(getMeasurements));
+
+    const { getMultipleMeasurements } = data;
+    dispatch(actions.mesurementDataRecevied(getMultipleMeasurements));
   }, [dispatch, data, error]);
 
   if (fetching) return <LinearProgress />;
