@@ -1,17 +1,5 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
-
-export type Measurement = {
-  metric: string;
-  at: number;
-  value: number;
-  unit: string;
-};
-
-export type Measurements = {
-  metric: string;
-  measurements: Array<Measurement>;
-};
-
+import { Measurements } from '../Measurements/mesurementType';
 export type ApiErrorAction = {
   error: string;
 };
@@ -20,12 +8,19 @@ let list: Array<Measurements> = [];
 const initialState = {
   mesurements: list,
 };
-
+const metrics = {
+  tubingPressure: 'tubingPressure',
+  injValveOpen: 'injValveOpen',
+  waterTemp: 'waterTemp',
+  flareTemp: 'flareTemp',
+  casingPressure: 'casingPressure',
+  oilTemp: 'oilTemp',
+};
 const slice = createSlice({
   name: 'measurement',
   initialState,
   reducers: {
-    mesurementDataRecevied: (state, action: PayloadAction<Measurements>) => {
+    mesurementDataRecevied: (state, action) => {
       const measurementsdata = action.payload;
       state.mesurements.push(measurementsdata);
     },

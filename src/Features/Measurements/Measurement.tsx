@@ -2,12 +2,17 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from './reducer';
 import { Provider, createClient, useQuery } from 'urql';
-import { useGeolocation } from 'react-use';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Chip from '../../components/Chip';
 import { IState } from '../../store';
-import Dashboard from './../../components/Dashboard';
-import moment from 'moment';
+import { Measurements } from './mesurementType';
+import {
+  CasingPressureActions,
+  FlareTempActions,
+  InjValveActions,
+  OilTempActions,
+  TubingPressureActions,
+  WaterTempActions,
+} from '../MetricTypes/Reducers/index';
 
 const client = createClient({
   url: 'https://react.eogresources.com/graphql',
@@ -76,15 +81,40 @@ const MultipleMetrics = () => {
     variables: { input: metricSet },
   });
   const { fetching, data, error } = result;
+  const metrics = {
+    tubingPressure: 'tubingPressure',
+    injValveOpen: 'injValveOpen',
+    waterTemp: 'waterTemp',
+    flareTemp: 'flareTemp',
+    casingPressure: 'casingPressure',
+    oilTemp: 'oilTemp',
+  };
   useEffect(() => {
     if (error) {
       dispatch(actions.measurementApiErrorReceived({ error: error.message }));
       return;
     }
     if (!data) return;
-
     const { getMultipleMeasurements } = data;
-    dispatch(actions.mesurementDataRecevied(getMultipleMeasurements));
+    getMultipleMeasurements.map((data: Measurements) => {
+      if (data.measurements.length > 0) {
+        dispatch(actions.mesurementDataRecevied(getMultipleMeasurements));
+      }
+      switch (data.metric) {
+        case metrics.casingPressure:
+          return dispatch(CasingPressureActions.casingPressureData(data.measurements));
+        case metrics.injValveOpen:
+          return dispatch(InjValveActions.injValueOpenData(data.measurements));
+        case metrics.tubingPressure:
+          return dispatch(TubingPressureActions.tubingPressureData(data.measurements));
+        case metrics.waterTemp:
+          return dispatch(WaterTempActions.waterTempData(data.measurements));
+        case metrics.flareTemp:
+          return dispatch(FlareTempActions.flareTempData(data.measurements));
+        case metrics.oilTemp:
+          return dispatch(OilTempActions.oilTempData(data.measurements));
+      }
+    });
   }, [dispatch, data, error]);
 
   if (fetching) return <LinearProgress />;

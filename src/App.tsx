@@ -33,7 +33,7 @@ const App = () => (
     <Provider store={store}>
       <Wrapper>
         <DataMeasurement />
-        <MeasurementSubscriber />;
+        {/* <MeasurementSubscriber />; */}
         <Header />
         <Dashboard />
         <ToastContainer />

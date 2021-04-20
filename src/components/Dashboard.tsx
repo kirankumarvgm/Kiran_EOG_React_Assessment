@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Measurement } from '../Features/Measurements/reducer';
+import { Measurement } from '../Features/Measurements/mesurementType';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from './CardHeader';

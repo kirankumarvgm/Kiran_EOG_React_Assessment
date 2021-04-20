@@ -1,8 +1,17 @@
 import React, { useEffect, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Provider, useSubscription, createClient, defaultExchanges, subscriptionExchange } from 'urql';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { actions as subActions } from '../SubscribeMeasurements/reducer';
+import { IState } from '../../store';
+import {
+  CasingPressureActions,
+  FlareTempActions,
+  InjValveActions,
+  OilTempActions,
+  TubingPressureActions,
+  WaterTempActions,
+} from '../MetricTypes/Reducers/index';
 
 const subscriptionClient = new SubscriptionClient('wss://react.eogresources.com/graphql', {
   reconnect: true,
@@ -38,10 +47,31 @@ type Measurement = {
   value: number;
   unit: string;
 };
-
+const metrics = {
+  tubingPressure: 'tubingPressure',
+  injValveOpen: 'injValveOpen',
+  waterTemp: 'waterTemp',
+  flareTemp: 'flareTemp',
+  casingPressure: 'casingPressure',
+  oilTemp: 'oilTemp',
+};
 const Subscriber = () => {
   const reducerSwitch = (measurement: Measurement) => {
-    return dispatch(subActions.newMesurementDataRecevied(measurement));
+    const { metric } = measurement;
+    switch (metric) {
+      case metrics.casingPressure:
+        return dispatch(CasingPressureActions.casingPressureData(measurement));
+      case metrics.injValveOpen:
+        return dispatch(InjValveActions.injValueOpenData(measurement));
+      case metrics.tubingPressure:
+        return dispatch(TubingPressureActions.tubingPressureData(measurement));
+      case metrics.waterTemp:
+        return dispatch(WaterTempActions.waterTempData(measurement));
+      case metrics.flareTemp:
+        return dispatch(FlareTempActions.flareTempData(measurement));
+      case metrics.oilTemp:
+        return dispatch(OilTempActions.oilTempData(measurement));
+    }
   };
 
   const dispatch = useDispatch();

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
 
+import { IState } from '../../store';
 export type Measurement = {
   metric: string;
   at: number;
@@ -12,7 +13,7 @@ export type ApiErrorAction = {
 };
 
 const initialState = {
-  mesurement: { metric: '', at: 0, value: 0, unit: '' },
+  newMesurement: { metric: '', at: 0, value: 0, unit: '' },
 };
 
 const slice = createSlice({
@@ -20,8 +21,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     newMesurementDataRecevied: (state, action: PayloadAction<Measurement>) => {
-      const { metric, at, value, unit } = action.payload;
-      console.log('Data is', metric, at, value, unit);
+      state.newMesurement = action.payload;
     },
   },
 });
