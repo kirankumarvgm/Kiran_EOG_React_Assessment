@@ -99,20 +99,20 @@ const MultipleMetrics = () => {
     getMultipleMeasurements.map((data: Measurements) => {
       if (data.measurements.length > 0) {
         dispatch(actions.mesurementDataRecevied(getMultipleMeasurements));
-      }
-      switch (data.metric) {
-        case metrics.casingPressure:
-          return dispatch(CasingPressureActions.casingPressureData(data.measurements));
-        case metrics.injValveOpen:
-          return dispatch(InjValveActions.injValueOpenData(data.measurements));
-        case metrics.tubingPressure:
-          return dispatch(TubingPressureActions.tubingPressureData(data.measurements));
-        case metrics.waterTemp:
-          return dispatch(WaterTempActions.waterTempData(data.measurements));
-        case metrics.flareTemp:
-          return dispatch(FlareTempActions.flareTempData(data.measurements));
-        case metrics.oilTemp:
-          return dispatch(OilTempActions.oilTempData(data.measurements));
+        switch (data.metric) {
+          case metrics.casingPressure:
+            return dispatch(CasingPressureActions.casingPressureInitialData(data.measurements));
+          case metrics.injValveOpen:
+            return dispatch(InjValveActions.injValveInitialData(data.measurements));
+          case metrics.tubingPressure:
+            return dispatch(TubingPressureActions.tubingPressureInitialData(data.measurements));
+          case metrics.waterTemp:
+            return dispatch(WaterTempActions.waterTempInitialData(data.measurements));
+          case metrics.flareTemp:
+            return dispatch(FlareTempActions.flareTempInitialData(data.measurements));
+          case metrics.oilTemp:
+            return dispatch(OilTempActions.oilTempInitialData(data.measurements));
+        }
       }
     });
   }, [dispatch, data, error]);

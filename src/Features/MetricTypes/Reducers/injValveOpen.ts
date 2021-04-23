@@ -12,6 +12,9 @@ const slice = createSlice({
     injValueOpenData: (state, action) => {
       state.injValueOpenData = [...state.injValueOpenData, action.payload];
     },
+    injValveInitialData: (state, action) => {
+      state.injValueOpenData = action.payload;
+    },
   },
 });
 

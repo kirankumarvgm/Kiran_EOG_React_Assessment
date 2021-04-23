@@ -12,6 +12,9 @@ const slice = createSlice({
     casingPressureData: (state, action) => {
       state.casingPressureData = [...state.casingPressureData, action.payload];
     },
+    casingPressureInitialData: (state, action) => {
+      state.casingPressureData = action.payload;
+    },
   },
 });
 

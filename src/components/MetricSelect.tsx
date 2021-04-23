@@ -6,8 +6,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { IState } from '../store';
+import { MetricSelectActions } from '../Features/MetricTypes/Reducers/index';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,26 +51,15 @@ function getStyles(name: string, metricName: string[], theme: Theme) {
 export default function MetricSelect() {
   const classes = useStyles();
   const theme = useTheme();
+  const dispatch = useDispatch();
   const metrics = useSelector((state: IState) => state.metric);
   const { getMetrics } = metrics;
   const names = getMetrics;
   const [metricName, setMetricName] = React.useState<string[]>([]);
-
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setMetricName(event.target.value as string[]);
+    dispatch(MetricSelectActions.metricSelected(event.target.value as string[]));
   };
-
-  const handleChangeMultiple = (event: React.ChangeEvent<{ value: unknown }>) => {
-    const { options } = event.target as HTMLSelectElement;
-    const value: string[] = [];
-    for (let i = 0, l = options.length; i < l; i += 1) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    setMetricName(value);
-  };
-
   return (
     <div>
       <FormControl className={classes.formControl}>
