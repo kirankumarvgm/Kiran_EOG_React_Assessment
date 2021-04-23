@@ -12,6 +12,9 @@ const slice = createSlice({
     flareTempData: (state, action) => {
       state.flareTempData = [...state.flareTempData, action.payload];
     },
+    flareTempInitialData: (state, action) => {
+      state.flareTempData = action.payload;
+    },
   },
 });
 

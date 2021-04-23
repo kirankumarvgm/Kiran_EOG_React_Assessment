@@ -10,6 +10,7 @@ import {
   InjValveReducer,
   OilTempReducer,
   TubingPressureReducer,
+  SelectedMetricReducer,
 } from '../Features/MetricTypes/Reducers/index';
 export default {
   weather: weatherReducer,
@@ -17,10 +18,11 @@ export default {
   heartbeat: HeartBeatReducer,
   metric: MetricDataReducer,
   newmeasurement: SubscriberDataReducer,
-  casingPressureData: CasingPressureReducer,
-  flareTempData: FlareTempReducer,
-  injValueOpenData: InjValveReducer,
-  oilTempData: OilTempReducer,
-  tubingPressureData: TubingPressureReducer,
-  waterTempData: WaterTempReducer,
+  casingPressure: CasingPressureReducer,
+  flareTemp: FlareTempReducer,
+  injValueOpen: InjValveReducer,
+  oilTemp: OilTempReducer,
+  tubingPressure: TubingPressureReducer,
+  waterTemp: WaterTempReducer,
+  metricsSelected: SelectedMetricReducer,
 };

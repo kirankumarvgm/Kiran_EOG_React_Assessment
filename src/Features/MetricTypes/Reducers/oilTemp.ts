@@ -12,6 +12,9 @@ const slice = createSlice({
     oilTempData: (state, action) => {
       state.oilTempData = [...state.oilTempData, action.payload];
     },
+    oilTempInitialData: (state, action) => {
+      state.oilTempData = action.payload;
+    },
   },
 });
 

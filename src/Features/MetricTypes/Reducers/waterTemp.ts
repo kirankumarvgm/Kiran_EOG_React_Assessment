@@ -12,6 +12,9 @@ const slice = createSlice({
     waterTempData: (state, action) => {
       state.waterTempData = [...state.waterTempData, action.payload];
     },
+    waterTempInitialData: (state, action) => {
+      state.waterTempData = action.payload;
+    },
   },
 });
 

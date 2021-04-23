@@ -4,6 +4,7 @@ import { actions as InjValveActions } from './injValveOpen';
 import { actions as OilTempActions } from './oilTemp';
 import { actions as TubingPressureActions } from './tubingPressure';
 import { actions as WaterTempActions } from './waterTemp';
+import { actions as MetricSelectActions } from './selectedMetric';
 export {
   CasingPressureActions,
   FlareTempActions,
@@ -11,4 +12,5 @@ export {
   OilTempActions,
   TubingPressureActions,
   WaterTempActions,
+  MetricSelectActions,
 };

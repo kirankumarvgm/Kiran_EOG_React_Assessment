@@ -12,6 +12,9 @@ const slice = createSlice({
     tubingPressureData: (state, action) => {
       state.tubingPressureData = [...state.tubingPressureData, action.payload];
     },
+    tubingPressureInitialData: (state, action) => {
+      state.tubingPressureData = action.payload;
+    },
   },
 });
 
